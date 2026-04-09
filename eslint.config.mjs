@@ -1,6 +1,10 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook"
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
+
+import { defineConfig, globalIgnores } from "eslint/config"
+import nextVitals from "eslint-config-next/core-web-vitals"
+import nextTs from "eslint-config-next/typescript"
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -12,7 +16,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Project generated artifacts:
+    "storybook-static/**",
+    "coverage/**",
   ]),
-]);
+  ...storybook.configs["flat/recommended"],
+  eslintPluginPrettierRecommended,
+])
 
-export default eslintConfig;
+export default eslintConfig

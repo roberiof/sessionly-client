@@ -8,10 +8,10 @@ Este documento define as entidades principais da aplicação Sessionly, incluind
 
 A modelagem segue princípios de:
 
-* Normalização de dados
-* Separação de responsabilidades
-* Escalabilidade futura
-* Simplicidade para MVP
+- Normalização de dados
+- Separação de responsabilidades
+- Escalabilidade futura
+- Simplicidade para MVP
 
 ---
 
@@ -65,7 +65,6 @@ ClientProfile {
 }
 ```
 
-
 ---
 
 ## Session
@@ -94,8 +93,8 @@ Session {
 
 Regras:
 
-* O preço é um snapshot no momento da criação
-* Sessão só existe após pagamento confirmado
+- O preço é um snapshot no momento da criação
+- Sessão só existe após pagamento confirmado
 
 ---
 
@@ -118,8 +117,8 @@ Chat {
 
 Regras:
 
-* Apenas um chat por par mentor/cliente
-* Chat é permanente após compra
+- Apenas um chat por par mentor/cliente
+- Chat é permanente após compra
 
 ---
 
@@ -170,8 +169,8 @@ Payment {
 
 Regras:
 
-* `referenceId` aponta para Session ou Chat
-* Um pagamento ativa o acesso ao recurso
+- `referenceId` aponta para Session ou Chat
+- Um pagamento ativa o acesso ao recurso
 
 ---
 
@@ -197,21 +196,21 @@ Review {
 
 Regras:
 
-* Uma sessão pode ter apenas uma avaliação
-* Avaliação só pode ser feita após conclusão
+- Uma sessão pode ter apenas uma avaliação
+- Avaliação só pode ser feita após conclusão
 
 ---
 
 ## Relacionamentos
 
-* User 1:1 MentorProfile
-* User 1:N Session (como mentor)
-* User 1:N Session (como cliente)
-* User 1:N Message
-* Chat 1:N Message
-* Session 1:1 Payment
-* Chat 1:1 Payment (por cliente)
-* Session 1:1 Review
+- User 1:1 MentorProfile
+- User 1:N Session (como mentor)
+- User 1:N Session (como cliente)
+- User 1:N Message
+- Chat 1:N Message
+- Session 1:1 Payment
+- Chat 1:1 Payment (por cliente)
+- Session 1:1 Review
 
 ---
 
@@ -221,11 +220,10 @@ Regras:
 
 Um usuário pode acessar um chat apenas se existir:
 
-* Payment com:
-
-  * type = 'CHAT'
-  * referenceId = chatId
-  * status = 'PAID'
+- Payment com:
+  - type = 'CHAT'
+  - referenceId = chatId
+  - status = 'PAID'
 
 ---
 
@@ -233,8 +231,8 @@ Um usuário pode acessar um chat apenas se existir:
 
 Um usuário pode acessar uma sessão apenas se:
 
-* Ele for mentor ou cliente da sessão
-* O status permitir acesso (ex: SCHEDULED ou IN_PROGRESS)
-* O pagamento estiver confirmado
+- Ele for mentor ou cliente da sessão
+- O status permitir acesso (ex: SCHEDULED ou IN_PROGRESS)
+- O pagamento estiver confirmado
 
 ---
