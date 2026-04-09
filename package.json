@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "check:lockfiles": "node -e \"const fs=require('fs'); const blocked=['package-lock.json','yarn.lock']; const found=blocked.filter((f)=>fs.existsSync(f)); if(found.length){console.error('Forbidden lockfile(s): '+found.join(', ')); process.exit(1);} console.log('OK: only pnpm lockfile policy enforced.');\"",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
