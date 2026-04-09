@@ -1,23 +1,23 @@
-# Sessionly — Entidades da Aplicação
+# Sessionly — Application Entities
 
 ---
 
-## Visão Geral
+## Overview
 
-Este documento define as entidades principais da aplicação Sessionly, incluindo suas estruturas, relações e regras implícitas de negócio.
+This document defines the main entities in Sessionly, including structures, relationships, and implicit business rules.
 
-A modelagem segue princípios de:
+The model follows these principles:
 
-- Normalização de dados
-- Separação de responsabilidades
-- Escalabilidade futura
-- Simplicidade para MVP
+- Data normalization
+- Separation of responsibilities
+- Future scalability
+- MVP simplicity
 
 ---
 
 ## User
 
-Entidade base do sistema. Representa qualquer usuário autenticado.
+Base system entity. Represents any authenticated user.
 
 ```ts
 User {
@@ -39,7 +39,7 @@ User {
 
 ## MentorProfile
 
-Extensão do User para funcionalidades específicas de mentor.
+`User` extension for mentor-specific features.
 
 ```ts
 MentorProfile {
@@ -54,7 +54,7 @@ MentorProfile {
 
 ## ClientProfile
 
-Extensão do User para funcionalidades específicas de cliente.
+`User` extension for client-specific features.
 
 ```ts
 ClientProfile {
@@ -69,7 +69,7 @@ ClientProfile {
 
 ## Session
 
-Representa uma sessão de mentoria agendada.
+Represents a scheduled mentorship session.
 
 ```ts
 Session {
@@ -91,16 +91,16 @@ Session {
 }
 ```
 
-Regras:
+Rules:
 
-- O preço é um snapshot no momento da criação
-- Sessão só existe após pagamento confirmado
+- Price is a snapshot captured at creation time
+- Session is created only after confirmed payment
 
 ---
 
 ## Chat
 
-Canal de comunicação permanente entre mentor e cliente.
+Permanent communication channel between mentor and client.
 
 ```ts
 Chat {
@@ -115,16 +115,16 @@ Chat {
 }
 ```
 
-Regras:
+Rules:
 
-- Apenas um chat por par mentor/cliente
-- Chat é permanente após compra
+- Only one chat per mentor/client pair
+- Chat remains available after purchase
 
 ---
 
 ## Message
 
-Mensagens trocadas dentro de um chat.
+Messages exchanged inside a chat.
 
 ```ts
 Message {
@@ -144,7 +144,7 @@ Message {
 
 ## Payment
 
-Representa transações financeiras da plataforma.
+Represents financial transactions in the platform.
 
 ```ts
 Payment {
@@ -167,16 +167,16 @@ Payment {
 }
 ```
 
-Regras:
+Rules:
 
-- `referenceId` aponta para Session ou Chat
-- Um pagamento ativa o acesso ao recurso
+- `referenceId` points to a `Session` or `Chat`
+- A payment unlocks access to its resource
 
 ---
 
 ## Review
 
-Avaliação de uma sessão de mentoria.
+Evaluation of a mentorship session.
 
 ```ts
 Review {
@@ -194,45 +194,45 @@ Review {
 }
 ```
 
-Regras:
+Rules:
 
-- Uma sessão pode ter apenas uma avaliação
-- Avaliação só pode ser feita após conclusão
+- A session can have only one review
+- Review can only be submitted after session completion
 
 ---
 
-## Relacionamentos
+## Relationships
 
 - User 1:1 MentorProfile
-- User 1:N Session (como mentor)
-- User 1:N Session (como cliente)
+- User 1:N Session (as mentor)
+- User 1:N Session (as client)
 - User 1:N Message
 - Chat 1:N Message
 - Session 1:1 Payment
-- Chat 1:1 Payment (por cliente)
+- Chat 1:1 Payment (per client)
 - Session 1:1 Review
 
 ---
 
-## Regras de Negócio Derivadas
+## Derived Business Rules
 
-### Acesso ao Chat
+### Chat Access
 
-Um usuário pode acessar um chat apenas se existir:
+A user can access a chat only if there is:
 
-- Payment com:
-  - type = 'CHAT'
-  - referenceId = chatId
-  - status = 'PAID'
+- `Payment` with:
+  - `type = 'CHAT'`
+  - `referenceId = chatId`
+  - `status = 'PAID'`
 
 ---
 
-### Acesso à Sessão
+### Session Access
 
-Um usuário pode acessar uma sessão apenas se:
+A user can access a session only if:
 
-- Ele for mentor ou cliente da sessão
-- O status permitir acesso (ex: SCHEDULED ou IN_PROGRESS)
-- O pagamento estiver confirmado
+- User is the mentor or client of the session
+- Session status allows access (e.g., `SCHEDULED` or `IN_PROGRESS`)
+- Payment is confirmed
 
 ---

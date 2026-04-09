@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sessionly Client
 
-## Getting Started
+Frontend application for Sessionly, a platform that connects mentors and mentees in a single environment for communication, scheduling, and knowledge monetization.
 
-First, run the development server:
+## Product Overview
+
+Sessionly's core value is to remove tool fragmentation (chat, video, payments, scheduling) and provide a simple, integrated experience.
+
+Main offerings:
+
+- Synchronous mentorship sessions (scheduled video calls)
+- Asynchronous direct chat (continuous mentor-client communication)
+
+## Planned Features
+
+- Mentor availability and conflict-free scheduling
+- In-platform video calls with restricted participant access
+- Internal chat with persistent message history
+- Payments to unlock session/chat access
+- Dashboard with activity history and core metrics
+- Session reviews and mentor reputation system
+- Theme and language personalization
+
+## Core Business Rules
+
+- A session can only happen after confirmed payment
+- Chat is only enabled after payment
+- Users can only access resources they purchased
+- Session lifecycle status: `SCHEDULED`, `IN_PROGRESS`, `COMPLETED`, `CANCELLED`
+- Only one chat is allowed per mentor/client pair
+
+## Current Stack
+
+- `Next.js 16` + `React 19` + `TypeScript`
+- `Tailwind CSS 4`
+- `Storybook 10`
+- `Vitest` + `Playwright`
+- `ESLint 9` + `Prettier 3`
+- `React Hook Form` + `Zod`
+
+## Package Management
+
+This repository uses **pnpm** as the standard package manager.
+
+- npm/yarn installs are blocked via `preinstall` (`only-allow pnpm`)
+- Lockfile policy: only `pnpm-lock.yaml`
+- CI fails if `package-lock.json` or `yarn.lock` is present
+
+## Requirements
+
+- `Node.js` 20+
+- `pnpm` 10+
+
+## Local Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Application URL: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `pnpm dev`: start local development
+- `pnpm build`: build for production
+- `pnpm start`: run production build
+- `pnpm lint`: run ESLint
+- `pnpm format`: format code with Prettier
+- `pnpm format:check`: verify formatting
+- `pnpm check:lockfiles`: enforce lockfile policy
+- `pnpm storybook`: run Storybook
+- `pnpm build-storybook`: generate static Storybook build
 
-## Learn More
+## Main Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app`: app shell and routes (App Router)
+- `src/components/ui`: reusable UI component primitives
+- `src/components/stories`: Storybook stories
+- `src/lib` and `src/utils`: shared utilities
+- `src/types`: shared types
+- `docs`: business and domain documentation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Domain Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `docs/business-idea.docs.md`: product vision and value proposition
+- `docs/entities.docs.md`: entities, relationships, and business rules
+- `docs/tech-stack.docs.md`: architecture and technical stack decisions
 
-## Deploy on Vercel
+## Code Quality
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Format-on-save is enabled in workspace settings (`.vscode/settings.json`)
+- Formatting issues are also reported by ESLint (`prettier/prettier`)
+- Quick fix flow:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm lint --fix
+pnpm format
+```

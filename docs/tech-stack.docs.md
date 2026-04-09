@@ -1,288 +1,89 @@
-# Sessionly — Entidades da Aplicação
+# Sessionly — Tech Stack
 
 ---
 
-## Visão Geral
+## Overview
 
-Este documento define as entidades principais da aplicação Sessionly, incluindo suas estruturas, relações e regras implícitas de negócio.
+This document describes the current and planned technology choices for the Sessionly client application.
 
-A modelagem segue princípios de:
+Primary goals for the stack:
 
-- Normalização de dados
-- Separação de responsabilidades
-- Escalabilidade futura
-- Simplicidade para MVP
-
----
-
-## User
-
-Entidade base do sistema. Representa qualquer usuário autenticado.
-
-```ts
-User {
-  id: string (uuid, pk)
-  name: string
-  email: string (unique, indexed)
-  passwordHash: string
-  avatarUrl?: string
-  role: 'MENTOR' | 'CLIENT' | 'ADMIN'
-  createdAt: Date
-  updatedAt: Date
-}
-```
+- Fast product iteration for MVP
+- Strong developer experience and maintainability
+- Scalable architecture for future growth
+- Type safety and predictable UI behavior
 
 ---
 
-## MentorProfile
+## Frontend
 
-Extensão do User para funcionalidades específicas de mentor.
-
-```ts
-MentorProfile {
-  userId: string (pk, fk -> User.id)
-
-  bio: string
-  specialties: string[]
-
-  sessionPrice: number
-  sessionDuration: number
-
-  chatPrice: number
-
-  isActive: boolean
-
-  createdAt: Date
-}
-```
+- **Framework:** Next.js 16 (App Router)
+- **UI Layer:** React 19
+- **Language:** TypeScript 5
+- **Styling:** Tailwind CSS 4
+- **UI Components:** Base UI primitives + custom components
+- **Forms and Validation:** React Hook Form + Zod
 
 ---
 
-## Availability
+## Design System and UI Development
 
-Define a disponibilidade recorrente do mentor.
-
-```ts
-Availability {
-  id: string (pk)
-  mentorId: string (fk -> User.id)
-
-  dayOfWeek: number (0-6)
-  startTime: string (HH:mm)
-  endTime: string (HH:mm)
-}
-```
+- **Component Workbench:** Storybook 10
+- **Story Coverage:** UI primitives and composed components
+- **Visual/UX Documentation:** stories under `src/components/stories`
 
 ---
 
-## BlockedSlot
+## Quality and Tooling
 
-Define exceções na agenda do mentor.
-
-```ts
-BlockedSlot {
-  id: string (pk)
-  mentorId: string (fk -> User.id)
-
-  startDateTime: Date
-  endDateTime: Date
-
-  reason?: string
-}
-```
+- **Linting:** ESLint 9 (Next.js + TypeScript + Storybook configs)
+- **Formatting:** Prettier 3
+- **Prettier in ESLint:** `prettier/prettier` rule enabled
+- **Editor Integration:** format-on-save configured in workspace settings
 
 ---
 
-## Session
+## Testing
 
-Representa uma sessão de mentoria agendada.
-
-```ts
-Session {
-  id: string (pk)
-
-  mentorId: string (fk -> User.id)
-  clientId: string (fk -> User.id)
-
-  startTime: Date
-  endTime: Date
-
-  price: number
-
-  status: 'SCHEDULED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW'
-
-  jitsiRoomId: string
-
-  createdAt: Date
-}
-```
-
-Regras:
-
-- O preço é um snapshot no momento da criação
-- Sessão só existe após pagamento confirmado
+- **Unit/Component Testing:** Vitest
+- **Browser/E2E Support:** Playwright integration
+- **Storybook Testing Addon:** `@storybook/addon-vitest`
 
 ---
 
-## Chat
+## Package and Dependency Management
 
-Canal de comunicação permanente entre mentor e cliente.
-
-```ts
-Chat {
-  id: string (pk)
-
-  mentorId: string (fk -> User.id)
-  clientId: string (fk -> User.id)
-
-  createdAt: Date
-
-  UNIQUE (mentorId, clientId)
-}
-```
-
-Regras:
-
-- Apenas um chat por par mentor/cliente
-- Chat é permanente após compra
+- **Package Manager:** pnpm
+- **Install Guard:** `only-allow pnpm` in `preinstall`
+- **Lockfile Policy:** only `pnpm-lock.yaml`
+- **CI Guard:** pipeline fails if `package-lock.json` or `yarn.lock` exists
 
 ---
 
-## Message
+## Project Structure (Current)
 
-Mensagens trocadas dentro de um chat.
-
-```ts
-Message {
-  id: string (pk)
-
-  chatId: string (fk -> Chat.id)
-  senderId: string (fk -> User.id)
-
-  content: string
-
-  createdAt: Date
-  readAt?: Date
-}
-```
+- `src/app` — app shell and routes
+- `src/components/ui` — reusable UI primitives
+- `src/components/stories` — Storybook stories
+- `src/lib` and `src/utils` — shared helpers/utilities
+- `src/types` — shared types
+- `docs` — business and technical documentation
 
 ---
 
-## Payment
+## Recommended Runtime Baseline
 
-Representa transações financeiras da plataforma.
-
-```ts
-Payment {
-  id: string (pk)
-
-  userId: string
-
-  type: 'SESSION' | 'CHAT'
-
-  referenceId: string
-
-  amount: number
-  currency: string
-
-  status: 'PENDING' | 'PAID' | 'FAILED' | 'REFUNDED'
-
-  stripePaymentIntentId: string
-
-  createdAt: Date
-}
-```
-
-Regras:
-
-- `referenceId` aponta para Session ou Chat
-- Um pagamento ativa o acesso ao recurso
+- Node.js 20+
+- pnpm 10+
 
 ---
 
-## Review
+## Future Technical Evolutions
 
-Avaliação de uma sessão de mentoria.
-
-```ts
-Review {
-  id: string (pk)
-
-  sessionId: string (fk -> Session.id, unique)
-
-  mentorId: string
-  clientId: string
-
-  rating: number
-  comment: string
-
-  createdAt: Date
-}
-```
-
-Regras:
-
-- Uma sessão pode ter apenas uma avaliação
-- Avaliação só pode ser feita após conclusão
-
----
-
-## Relacionamentos
-
-- User 1:1 MentorProfile
-- User 1:N Session (como mentor)
-- User 1:N Session (como cliente)
-- User 1:N Message
-- Chat 1:N Message
-- Session 1:1 Payment
-- Chat 1:1 Payment (por cliente)
-- Session 1:1 Review
-
----
-
-## Regras de Negócio Derivadas
-
-### Acesso ao Chat
-
-Um usuário pode acessar um chat apenas se existir:
-
-- Payment com:
-  - type = 'CHAT'
-  - referenceId = chatId
-  - status = 'PAID'
-
----
-
-### Acesso à Sessão
-
-Um usuário pode acessar uma sessão apenas se:
-
-- Ele for mentor ou cliente da sessão
-- O status permitir acesso (ex: SCHEDULED ou IN_PROGRESS)
-- O pagamento estiver confirmado
-
----
-
-## Considerações Técnicas
-
-- Utilizar índices em:
-  - User.email
-  - Session.mentorId
-  - Session.clientId
-  - Chat (mentorId, clientId)
-
-- Utilizar UUID como chave primária
-
-- Considerar soft delete em entidades críticas (opcional)
-
----
-
-## Possíveis Evoluções
-
-- Multi-role por usuário
-- Especialidades como entidade separada
-- Sistema de permissões mais granular
-- Suporte a múltiplos pagamentos por recurso
-- Histórico de preços
+- Introduce API client layer standardization (typed contracts)
+- Add stronger automated test coverage on critical flows
+- Establish design tokens and theming governance
+- Expand CI quality gates (coverage thresholds, affected checks)
+- Add observability hooks for frontend errors and UX metrics
 
 ---

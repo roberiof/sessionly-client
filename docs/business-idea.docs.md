@@ -1,128 +1,128 @@
-# Sessionly — Documento de Negócio
+# Sessionly — Business Document
 
-## Visão da Solução
+## Solution Vision
 
-O Sessionly é uma plataforma que conecta mentores e mentorados em um ambiente unificado para comunicação, agendamento e monetização de conhecimento.
+Sessionly is a platform that connects mentors and mentees in a unified environment for communication, scheduling, and knowledge monetization.
 
-A proposta central é eliminar a fragmentação de ferramentas (chat, vídeo, pagamento, agenda) e oferecer uma experiência integrada, simples e profissional.
-
----
-
-## Proposta de Valor
-
-### Para Mentores
-
-- Monetização direta do conhecimento
-- Flexibilidade (chat ou sessões)
-- Controle total de agenda e preços
-- Centralização de comunicação e histórico
-
-### Para Clientes
-
-- Acesso rápido a especialistas
-- Diferentes formas de interação (chat ou sessão)
-- Experiência simples e confiável
-- Histórico e acompanhamento contínuo
+Its core value is to remove tool fragmentation (chat, video, payments, scheduling) and provide a simple, integrated, and professional experience.
 
 ---
 
-## Modelo de Produto
+## Value Proposition
 
-A plataforma oferece dois serviços principais:
+### For Mentors
 
-### Sessões de Mentoria (Síncronas)
+- Direct knowledge monetization
+- Flexible service format (chat or sessions)
+- Full control over schedule and pricing
+- Centralized communication and history
 
-- Interação em tempo real via videochamada
-- Duração definida (ex: 30min / 1h)
-- Inclui chat durante a sessão
+### For Clients
 
-### Chat Direto (Assíncrono)
-
-- Produto independente
-- Comunicação contínua entre mentor e cliente
-- Mensagens ilimitadas
-- Sem necessidade de agendamento
+- Fast access to specialists
+- Multiple interaction options (chat or session)
+- Simple and reliable experience
+- Ongoing history and follow-up
 
 ---
 
-## Funcionalidades do Produto
+## Product Model
 
-### Agendamento
+The platform provides two main services:
 
-- Visualização de disponibilidade do mentor
-- Reserva de horários
-- Prevenção de conflitos
+### Mentorship Sessions (Synchronous)
 
-### Videochamada
+- Real-time interaction through video calls
+- Fixed duration (e.g., 30 minutes / 1 hour)
+- Includes chat during the session
 
-- Sessões realizadas dentro da plataforma
-- Acesso restrito aos participantes
-- Disponível apenas no horário agendado
+### Direct Chat (Asynchronous)
 
-### Chat Interno
+- Standalone product
+- Continuous mentor-client communication
+- Unlimited messages
+- No scheduling required
 
-- Chat vinculado a sessões
-- Chat direto como produto independente
-- Histórico persistente
+---
 
-### Pagamentos
+## Product Features
 
-- Pagamento obrigatório para acesso aos serviços
-- Diferenciação entre compra de sessão e chat
+### Scheduling
 
-### Personalização
+- Mentor availability view
+- Time slot booking
+- Conflict prevention
 
-- Tema (dark/light)
-- Idioma (internacionalização)
-- Preferências persistidas por usuário
+### Video Calls
 
-### Avaliações
+- Sessions run inside the platform
+- Access restricted to participants
+- Available only during the scheduled time window
 
-- Feedback do cliente após sessões
-- Sistema de reputação para mentores
+### In-Platform Chat
+
+- Session-linked chat
+- Standalone direct chat product
+- Persistent message history
+
+### Payments
+
+- Payment required to access services
+- Separate purchase flows for sessions and chat
+
+### Personalization
+
+- Theme support (dark/light)
+- Language support (internationalization)
+- User-level persisted preferences
+
+### Reviews
+
+- Client feedback after sessions
+- Mentor reputation system
 
 ### Dashboard
 
-- Visão de atividades
-- Histórico de sessões e chats
-- Métricas básicas
+- Activity overview
+- Session and chat history
+- Core metrics
 
 ---
 
-## Regras de Negócio
+## Business Rules
 
-### Sessões
+### Sessions
 
-- Só podem ocorrer após pagamento
-- Possuem horário fixo
-- Estados: scheduled, in_progress, completed, cancelled
+- Sessions can only occur after payment
+- Sessions always have a fixed time slot
+- States: `scheduled`, `in_progress`, `completed`, `cancelled`
 
 ### Chat
 
-- Liberado apenas após pagamento
-- Comunicação ilimitada
-- Sempre vinculado a um mentor e cliente
+- Chat is enabled only after payment
+- Communication is unlimited
+- Always linked to one mentor and one client
 
-### Pagamentos
+### Payments
 
-- Obrigatórios para ativação de serviços
-- Podem ter regras de reembolso
+- Mandatory for service activation
+- May include refund policies
 
-### Acesso
+### Access
 
-- Usuários só acessam recursos que contrataram
-
----
-
-## Diferenciais
-
-- Plataforma all-in-one
-- Modelo híbrido (síncrono + assíncrono)
-- Flexibilidade para mentores
-- Experiência consistente para usuários
+- Users can only access resources they purchased
 
 ---
 
-## Conclusão
+## Differentiators
 
-O Sessionly é uma solução moderna para monetização de conhecimento, com foco em simplicidade, flexibilidade e experiência do usuário.
+- All-in-one platform
+- Hybrid model (synchronous + asynchronous)
+- Flexibility for mentors
+- Consistent experience for users
+
+---
+
+## Conclusion
+
+Sessionly is a modern solution for knowledge monetization, focused on simplicity, flexibility, and user experience.
