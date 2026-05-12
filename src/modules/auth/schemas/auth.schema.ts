@@ -27,7 +27,6 @@ export const mentorRegisterSchema = registerBaseSchema.and(
     role: z.literal("MENTOR"),
     niche: z.string().min(2, "Niche must be at least 2 characters"),
     specialties: z.array(z.string()).min(1, "Add at least one specialty"),
-    chatPrice: z.number().positive("Chat price must be greater than 0"),
   }),
 )
 

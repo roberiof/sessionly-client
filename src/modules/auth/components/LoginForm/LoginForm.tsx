@@ -26,6 +26,7 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
 
   const {
+    reset,
     control,
     handleSubmit,
     formState: { isSubmitting },
@@ -181,6 +182,7 @@ export function LoginForm() {
           <Link
             href="/register"
             className="font-medium text-primary underline-offset-4 transition-colors hover:underline"
+            onClick={() => reset()}
           >
             Create one
           </Link>

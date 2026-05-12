@@ -58,7 +58,6 @@ export function MentorForm({ onSuccess }: Props) {
       confirmPassword: "",
       niche: "",
       specialties: [],
-      chatPrice: undefined,
     },
   })
 
@@ -213,36 +212,6 @@ export function MentorForm({ onSuccess }: Props) {
               placeholder="e.g. React, TypeScript…"
               onAdd={addSpecialty}
               onRemove={removeSpecialty}
-            />
-          )}
-        />
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.28, ease: EASE_EXPO }}
-      >
-        <FormField
-          name="chatPrice"
-          control={control}
-          label="Chat price (USD)"
-          required
-          description="Amount clients pay to unlock a chat with you"
-          render={({ field }) => (
-            <Input
-              {...field}
-              id="chatPrice"
-              type="number"
-              min={0}
-              step="0.01"
-              placeholder="e.g. 29.99"
-              className={INPUT_CLASS}
-              onChange={(e) =>
-                field.onChange(
-                  e.target.value === "" ? undefined : Number(e.target.value),
-                )
-              }
             />
           )}
         />
