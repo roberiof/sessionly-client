@@ -4,14 +4,23 @@ import { type KeyboardEvent, useRef, useState } from "react"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "motion/react"
 
+import { cn } from "@/lib/utils"
+
 type Props = {
   tags: string[]
-  placeholder: string
+  placeholder?: string
   onAdd: (tag: string) => void
   onRemove: (tag: string) => void
+  className?: string
 }
 
-export function TagInput({ tags, placeholder, onAdd, onRemove }: Props) {
+export function TagInput({
+  tags,
+  placeholder,
+  onAdd,
+  onRemove,
+  className,
+}: Props) {
   const [inputValue, setInputValue] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -31,7 +40,13 @@ export function TagInput({ tags, placeholder, onAdd, onRemove }: Props) {
 
   return (
     <div
-      className="flex min-h-10 cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-border bg-muted px-3 py-2 transition-colors focus-within:border-primary/70 focus-within:ring-2 focus-within:ring-primary/20"
+      className={cn(
+        "flex min-h-10 cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-input bg-transparent px-3 py-2 transition-colors",
+        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+        "group-data-[invalid=true]/field:border-destructive group-data-[invalid=true]/field:ring-3 group-data-[invalid=true]/field:ring-destructive/20",
+        "dark:bg-input/30 dark:group-data-[invalid=true]/field:border-destructive/50 dark:group-data-[invalid=true]/field:ring-destructive/40",
+        className,
+      )}
       onClick={() => inputRef.current?.focus()}
     >
       <AnimatePresence initial={false}>
