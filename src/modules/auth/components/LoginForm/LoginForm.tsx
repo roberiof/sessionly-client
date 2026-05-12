@@ -42,7 +42,11 @@ export function LoginForm() {
     })
 
     if (result?.error) {
-      toast.error("Wrong email or password. Please try again.")
+      if (result.code === "SERVER_ERROR") {
+        toast.error("Service unavailable. Please try again later.")
+      } else {
+        toast.error("Wrong email or password. Please try again.")
+      }
       return
     }
 

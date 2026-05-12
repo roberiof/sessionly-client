@@ -1,9 +1,17 @@
 import type { NextAuthConfig } from "next-auth"
+import { CredentialsSignin } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { HTTPError } from "ky"
 import { z } from "zod"
 
 import { postLogin } from "@/api/auth/endpoints"
-import type { AuthUser } from "@/api/auth/types"
+import type { AuthUser, AuthErrorCode } from "@/api/auth/types"
+
+class AuthSignInError extends CredentialsSignin {
+  constructor(public override code: AuthErrorCode) {
+    super()
+  }
+}
 
 const credentialsSchema = z.object({
   email: z.email(),
@@ -66,8 +74,15 @@ export const authConfig = {
             access_token: user.access_token,
             access_token_expires: user.access_token_expires,
           }
-        } catch {
-          return null
+        } catch (error) {
+          if (error instanceof HTTPError) {
+            const isAuthFailure =
+              error.response.status === 401 || error.response.status === 403
+            throw new AuthSignInError(
+              isAuthFailure ? "INVALID_CREDENTIALS" : "SERVER_ERROR",
+            )
+          }
+          throw new AuthSignInError("SERVER_ERROR")
         }
       },
     }),
