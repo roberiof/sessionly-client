@@ -1,23 +1,35 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Instrument_Sans, JetBrains_Mono, Fraunces } from "next/font/google"
+import { SessionProvider } from "next-auth/react"
+
+import { ReactQueryProvider } from "@/lib/react-query"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import "./globals.css"
 
-const geistSans = Geist({
+const instrumentSans = Instrument_Sans({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 })
 
-const geistMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
+})
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
 })
 
 export const metadata: Metadata = {
   title: "Sessionly",
   description:
-    "Plataforma de mentoria que conecta mentores e mentorados em um ambiente unificado.",
+    "Mentorship platform connecting mentors and clients in a unified environment.",
 }
 
 export default function RootLayout({
@@ -27,15 +39,19 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="en"
+      className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${fraunces.variable} dark h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
-        <TooltipProvider>
-          {children}
-          <Toaster />
-        </TooltipProvider>
+      <body className="flex min-h-full flex-col">
+        <SessionProvider>
+          <ReactQueryProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
+          </ReactQueryProvider>
+        </SessionProvider>
       </body>
     </html>
   )
