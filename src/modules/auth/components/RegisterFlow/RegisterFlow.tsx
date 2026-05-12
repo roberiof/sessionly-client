@@ -5,7 +5,7 @@ import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { toast } from "sonner"
 import { motion, AnimatePresence } from "motion/react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import type { Role } from "./types"
@@ -144,10 +144,10 @@ export function RegisterFlow() {
             )}
 
             {step === 2 && role === "MENTOR" && (
-              <MentorForm onSuccess={handleRegisterSuccess} />
+              <MentorForm onSuccess={handleRegisterSuccess} onBack={handleBack} />
             )}
             {step === 2 && role === "CLIENT" && (
-              <ClientForm onSuccess={handleRegisterSuccess} />
+              <ClientForm onSuccess={handleRegisterSuccess} onBack={handleBack} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -186,39 +186,7 @@ export function RegisterFlow() {
               </Link>
             </p>
           </motion.div>
-        ) : (
-          <motion.div
-            key="submit"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.22, ease: EASE_EXPO }}
-            className="space-y-2"
-          >
-            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                type="submit"
-                form="register-form"
-                size="lg"
-                className="group w-full gap-2 transition-shadow hover:shadow-glow"
-              >
-                Create account
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-              </Button>
-            </motion.div>
-
-            <Button
-              type="button"
-              variant="ghost"
-              size="lg"
-              className="w-full gap-2 text-foreground/40 hover:text-foreground/70"
-              onClick={handleBack}
-            >
-              <ArrowLeft className="size-4" />
-              Back
-            </Button>
-          </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </motion.div>
   )
