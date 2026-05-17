@@ -1,6 +1,19 @@
 import type { Preview } from "@storybook/nextjs-vite"
+import { Instrument_Sans, JetBrains_Mono } from "next/font/google"
 import React from "react"
 import "../src/app/globals.css"
+
+const instrumentSans = Instrument_Sans({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+})
 
 const preview: Preview = {
   globalTypes: {
@@ -29,7 +42,7 @@ const preview: Preview = {
       }, [theme])
 
       return (
-        <div className="bg-background text-foreground h-full w-full px-6 py-12 font-sans">
+        <div className={`${instrumentSans.variable} ${jetbrainsMono.variable} bg-background text-foreground h-full w-full px-6 py-12 font-sans`}>
           <Story />
         </div>
       )
